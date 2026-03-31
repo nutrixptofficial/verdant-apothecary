@@ -1,38 +1,34 @@
 import { Product } from "@/contexts/CartContext";
 
-const gradients = [
-  "linear-gradient(135deg, #2d5a27, #4a7c44)",
-  "linear-gradient(135deg, #6b4226, #8b6242)",
-  "linear-gradient(135deg, #2d5a27, #c8952c)",
-  "linear-gradient(135deg, #4a7c44, #6b4226)",
-  "linear-gradient(135deg, #c8952c, #6b4226)",
-  "linear-gradient(135deg, #3a6b34, #2d5a27)",
-  "linear-gradient(135deg, #5a3a1a, #c8952c)",
-  "linear-gradient(135deg, #2d5a27, #5a8a54)",
-];
+import prodSaffron from "@/assets/prod-saffron.jpg";
+import prodAnardana from "@/assets/prod-anardana.jpg";
+import prodKaliMirch from "@/assets/prod-kali-mirch.jpg";
+import prodBlackPepper from "@/assets/prod-black-pepper.jpg";
+import prodGinger from "@/assets/prod-ginger.jpg";
+import prodNeem from "@/assets/prod-neem.jpg";
+import prodRedChilli from "@/assets/prod-red-chilli.jpg";
+import prodCardamom from "@/assets/prod-cardamom.jpg";
 
 export const products: Product[] = [
-  { id: 1, name: "Ashwagandha Capsules", price: 499, description: "Stress relief & vitality booster", category: "Herbal Capsules", rating: 5 },
-  { id: 2, name: "Tulsi Green Tea", price: 299, description: "Immunity boosting herbal tea blend", category: "Herbal Teas", rating: 4 },
-  { id: 3, name: "Bhringraj Hair Oil", price: 399, description: "Promotes hair growth naturally", category: "Oils & Extracts", rating: 5 },
-  { id: 4, name: "Neem Face Wash", price: 249, description: "Deep cleansing with neem extract", category: "Skincare", rating: 4 },
-  { id: 5, name: "Giloy Immunity Tablets", price: 349, description: "Natural immunity enhancement", category: "Immunity Boosters", rating: 5 },
-  { id: 6, name: "Triphala Churna", price: 199, description: "Digestive health & detox formula", category: "Digestive Care", rating: 4 },
-  { id: 7, name: "Moringa Powder", price: 279, description: "Superfood packed with nutrients", category: "Herbal Capsules", rating: 5 },
-  { id: 8, name: "Chamomile Tea", price: 349, description: "Calming & relaxation herbal tea", category: "Herbal Teas", rating: 4 },
-  { id: 9, name: "Tea Tree Essential Oil", price: 449, description: "Antibacterial & skin purifier", category: "Oils & Extracts", rating: 5 },
-  { id: 10, name: "Aloe Vera Gel", price: 199, description: "Soothing skin moisturizer", category: "Skincare", rating: 4 },
-  { id: 11, name: "Amla Vitamin C Tabs", price: 329, description: "Natural vitamin C supplement", category: "Immunity Boosters", rating: 5 },
-  { id: 12, name: "Psyllium Husk Powder", price: 179, description: "High fiber digestive support", category: "Digestive Care", rating: 4 },
+  { id: 1, name: "Saffron | Zafran | زعفران", price: 1450, description: "Premium quality saffron threads", category: "Herbs", rating: 5, image: prodSaffron },
+  { id: 2, name: "Pomegranate Seeds | Annar Dana | اناردانہ", price: 120, description: "Dried pomegranate seeds", category: "Dry Fruits", rating: 4, image: prodAnardana, priceRange: "₨ 120–₨ 220" },
+  { id: 3, name: "Kali Mirch Powder (Black Pepper Powder)", price: 550, description: "Premium ground black pepper", category: "Spices", rating: 5, image: prodKaliMirch, originalPrice: 700 },
+  { id: 4, name: "Kali Mirch Sabat (Black Pepper Whole)", price: 180, description: "Whole black peppercorns", category: "Spices", rating: 4, image: prodBlackPepper, priceRange: "₨ 180–₨ 550" },
+  { id: 5, name: "Ginger | Sund | سنڈھ", price: 210, description: "Dried ginger powder", category: "Herbs", rating: 5, image: prodGinger },
+  { id: 6, name: "Neem | نیم", price: 60, description: "Pure neem leaves powder", category: "Herbs", rating: 4, image: prodNeem },
+  { id: 7, name: "Lal Mirch Darla - Red Chilli Powder", price: 120, description: "Premium red chilli powder", category: "Spices", rating: 5, image: prodRedChilli, priceRange: "₨ 120–₨ 450" },
+  { id: 8, name: "Sabz Elaichi (Green Cardamom)", price: 180, description: "Fragrant green cardamom pods", category: "Spices", rating: 5, image: prodCardamom, priceRange: "₨ 180–₨ 800" },
+  { id: 9, name: "Ashwagandha | Asgand Nagori", price: 150, description: "Withania Somnifera root", category: "Herbs", rating: 5, image: prodGinger, priceRange: "₨ 150–₨ 1,500" },
+  { id: 10, name: "Shikakai | Soap Pod | سکاکائی", price: 60, description: "Natural hair care herb", category: "Herbs", rating: 4, image: prodNeem, priceRange: "₨ 60–₨ 650" },
+  { id: 11, name: "White Pepper Whole | Safeed Mirch", price: 320, description: "Premium whole white pepper", category: "Spices", rating: 4, image: prodBlackPepper, priceRange: "₨ 320–₨ 620" },
+  { id: 12, name: "Zeera Sabat Safeed (White Cumin)", price: 150, description: "Whole white cumin seeds", category: "Spices", rating: 4, image: prodCardamom, priceRange: "₨ 150–₨ 450" },
 ];
 
-export const getProductGradient = (id: number) => gradients[(id - 1) % gradients.length];
-
 export const categories = [
-  "Herbal Capsules",
-  "Herbal Teas",
-  "Oils & Extracts",
-  "Skincare",
-  "Immunity Boosters",
-  "Digestive Care",
+  "Arqiyat",
+  "Dry Fruits",
+  "Fruit Preserves",
+  "Herbal Oils",
+  "Herbs",
+  "Spices",
 ];

@@ -6,70 +6,71 @@
 
 @layer base {
   :root {
-    --background: 36 33% 93%;
-    --foreground: 120 37% 15%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 13%;
 
     --card: 0 0% 100%;
-    --card-foreground: 120 37% 15%;
+    --card-foreground: 0 0% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 120 37% 15%;
+    --popover-foreground: 0 0% 13%;
 
-    --primary: 114 37% 25%;
+    --primary: 93 60% 42%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 22 31% 28%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 13%;
 
-    --muted: 36 25% 88%;
-    --muted-foreground: 120 10% 40%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 39 65% 48%;
+    --accent: 93 60% 42%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 36 20% 82%;
-    --input: 36 20% 82%;
-    --ring: 114 37% 25%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 93 60% 42%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    --sidebar-background: 114 37% 20%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 114 37% 25%;
+    --footer-bg: 0 62% 22%;
+    --footer-foreground: 0 0% 90%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 93 60% 42%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 114 30% 30%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 114 20% 30%;
-    --sidebar-ring: 39 65% 48%;
-
-    --hero-gradient: linear-gradient(135deg, hsl(114 37% 25%), hsl(114 30% 35%), hsl(120 20% 20%));
-    --card-shadow: 0 4px 20px -4px hsl(114 37% 25% / 0.12);
-    --card-shadow-hover: 0 12px 32px -8px hsl(114 37% 25% / 0.2);
+    --sidebar-accent: 93 40% 92%;
+    --sidebar-accent-foreground: 93 60% 25%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 93 60% 42%;
   }
 
   .dark {
-    --background: 120 15% 8%;
-    --foreground: 36 33% 93%;
-    --card: 120 15% 12%;
-    --card-foreground: 36 33% 93%;
-    --popover: 120 15% 12%;
-    --popover-foreground: 36 33% 93%;
-    --primary: 114 37% 35%;
+    --background: 0 0% 7%;
+    --foreground: 0 0% 93%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 93%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 93%;
+    --primary: 93 60% 42%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 22 31% 35%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 120 10% 18%;
-    --muted-foreground: 36 15% 65%;
-    --accent: 39 65% 48%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 93%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 93 60% 42%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 120 10% 20%;
-    --input: 120 10% 20%;
-    --ring: 114 37% 35%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 93 60% 42%;
+    --footer-bg: 0 62% 15%;
+    --footer-foreground: 0 0% 85%;
   }
 }
 
@@ -83,21 +84,38 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    @apply font-body;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply text-sm font-medium text-foreground hover:text-primary transition-colors relative;
+  }
+
+  .nav-link-active {
+    @apply text-foreground font-semibold;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }
+
+  .product-card {
+    @apply bg-card border border-border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl;
+  }
+
+  .section-title {
+    @apply text-2xl md:text-3xl font-semibold text-foreground;
+  }
+
+  .footer-section {
+    background-color: hsl(var(--footer-bg));
+    color: hsl(var(--footer-foreground));
   }
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-  }
-
-  .hero-gradient {
-    background: var(--hero-gradient);
-  }
-
   .section-padding {
-    @apply px-4 py-16 md:px-8 lg:px-16 lg:py-24;
+    @apply px-4 py-12 md:px-8 lg:px-16 lg:py-16;
   }
 }
