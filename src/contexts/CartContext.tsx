@@ -9,6 +9,8 @@ export interface Product {
   category: string;
   rating: number;
   image?: string;
+  priceRange?: string;
+  originalPrice?: number;
 }
 
 interface CartItem extends Product {
