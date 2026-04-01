@@ -54,7 +54,7 @@ const Navbar = () => {
 
           {/* Right: Icons */}
           <div className="flex items-center gap-4">
-            <button className="hidden sm:block text-foreground hover:text-primary transition-colors">
+            <button className="hidden sm:block text-foreground hover:text-primary transition-colors" onClick={() => setSearchOpen(true)}>
               <Search className="h-5 w-5" />
             </button>
             <button className="hidden sm:block text-foreground hover:text-primary transition-colors">
