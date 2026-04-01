@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Search, User, Heart, ShoppingCart, Menu, X, Leaf } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import SideCart from "@/components/SideCart";
+import SearchOverlay from "@/components/SearchOverlay";
 
 const links = [
   { name: "Home", path: "/" },
@@ -15,6 +16,7 @@ const links = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { totalItems } = useCart();
   const location = useLocation();
 
@@ -52,7 +54,7 @@ const Navbar = () => {
 
           {/* Right: Icons */}
           <div className="flex items-center gap-4">
-            <button className="hidden sm:block text-foreground hover:text-primary transition-colors">
+            <button className="hidden sm:block text-foreground hover:text-primary transition-colors" onClick={() => setSearchOpen(true)}>
               <Search className="h-5 w-5" />
             </button>
             <button className="hidden sm:block text-foreground hover:text-primary transition-colors">
@@ -100,6 +102,7 @@ const Navbar = () => {
       </nav>
 
       <SideCart open={cartOpen} onOpenChange={setCartOpen} />
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 };
