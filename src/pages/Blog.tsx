@@ -1,28 +1,7 @@
+import { Link } from "react-router-dom";
+import { Calendar, Eye } from "lucide-react";
 import catHerbs from "@/assets/cat-herbs.jpg";
-
-const blogPosts = [
-  {
-    title: "Black Pepper Spice Beef Recipe",
-    category: "GardenFrost Puree",
-    excerpt: "Mole sauce are a magnificent mixture fragrant layered flavors, and we're honing in on the best techniques...",
-    date: "13 Feb 2023",
-    views: 228,
-  },
-  {
-    title: "Garlicky Punch and Finishes",
-    category: "Backpepper",
-    excerpt: "We combine famous carnitas flavor with herbaceous Indian spices for a unique fusion experience...",
-    date: "21 Feb 2023",
-    views: 177,
-  },
-  {
-    title: "Spices Subscription Guide",
-    category: "Backpepper",
-    excerpt: "With blend we sought to capture the essence and introduce a new dimension of flavors to your kitchen...",
-    date: "17 Mar 2023",
-    views: 166,
-  },
-];
+import { blogPostsData } from "@/pages/BlogPost";
 
 const Blog = () => (
   <div>
@@ -35,8 +14,8 @@ const Blog = () => (
 
     <section className="max-w-7xl mx-auto px-4 lg:px-8 py-16">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {blogPosts.map((post) => (
-          <div key={post.title} className="product-card group">
+        {blogPostsData.map((post) => (
+          <Link to={`/blog/${post.slug}`} key={post.slug} className="product-card group">
             <div className="h-48 overflow-hidden">
               <img src={catHerbs} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             </div>
@@ -45,13 +24,12 @@ const Blog = () => (
                 {post.category}
               </span>
               <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">{post.title}</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
               <div className="flex items-center gap-4 text-xs text-muted-foreground pt-1">
-                <span>{post.date}</span>
-                <span>👁 {post.views}</span>
+                <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {post.date}</span>
+                <span className="flex items-center gap-1"><Eye className="h-3 w-3" /> {post.views}</span>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

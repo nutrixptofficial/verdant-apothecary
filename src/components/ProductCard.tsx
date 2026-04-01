@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useCart, Product } from "@/contexts/CartContext";
 
@@ -7,7 +8,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <div className="product-card group">
-      <div className="relative overflow-hidden bg-secondary">
+      <Link to={`/product/${product.id}`} className="block relative overflow-hidden bg-secondary">
         <img
           src={product.image}
           alt={product.name}
@@ -21,11 +22,13 @@ const ProductCard = ({ product }: { product: Product }) => {
             Sale!
           </span>
         )}
-      </div>
+      </Link>
       <div className="p-4 space-y-2">
-        <h3 className="text-sm font-medium text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
-          {product.name}
-        </h3>
+        <Link to={`/product/${product.id}`}>
+          <h3 className="text-sm font-medium text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+            {product.name}
+          </h3>
+        </Link>
         <div className="flex items-center gap-2">
           {product.originalPrice && (
             <span className="text-sm text-muted-foreground line-through">₨ {product.originalPrice.toLocaleString()}</span>
@@ -42,9 +45,9 @@ const ProductCard = ({ product }: { product: Product }) => {
               size="sm"
               variant="outline"
               className="w-full text-xs border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-              onClick={() => addToCart(product)}
+              asChild
             >
-              Select options
+              <Link to={`/product/${product.id}`}>Select options</Link>
             </Button>
           ) : (
             <Button
