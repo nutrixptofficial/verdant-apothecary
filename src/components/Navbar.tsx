@@ -102,6 +102,7 @@ const Navbar = () => {
       </nav>
 
       <SideCart open={cartOpen} onOpenChange={setCartOpen} />
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 };

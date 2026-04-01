@@ -26,7 +26,8 @@ const App = () => (
     <TooltipProvider>
       <CartProvider>
         <Toaster />
-        <BrowserRouter>
+          <BrowserRouter>
+          <ScrollToTop />
           <div className="min-h-screen flex flex-col">
             <Navbar />
             <main className="flex-1">
