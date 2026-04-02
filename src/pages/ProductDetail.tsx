@@ -1,9 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
-import { Star, Minus, Plus, ShoppingCart, ChevronRight } from "lucide-react";
+import { Star, Minus, Plus, ShoppingCart, ChevronRight, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 
