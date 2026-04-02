@@ -12,7 +12,9 @@ const ProductDetail = () => {
   const { id } = useParams();
   const product = products.find((p) => p.id === Number(id));
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [qty, setQty] = useState(1);
+  const wishlisted = product ? isInWishlist(product.id) : false;
 
   if (!product) {
     return (
