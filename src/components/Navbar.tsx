@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, User, Heart, ShoppingCart, Menu, X, Leaf } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import SideCart from "@/components/SideCart";
 import SearchOverlay from "@/components/SearchOverlay";
 
