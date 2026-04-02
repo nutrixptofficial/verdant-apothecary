@@ -1,9 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
-import { Star, Minus, Plus, ShoppingCart, ChevronRight } from "lucide-react";
+import { Star, Minus, Plus, ShoppingCart, ChevronRight, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 
@@ -11,7 +12,9 @@ const ProductDetail = () => {
   const { id } = useParams();
   const product = products.find((p) => p.id === Number(id));
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [qty, setQty] = useState(1);
+  const wishlisted = product ? isInWishlist(product.id) : false;
 
   if (!product) {
     return (
@@ -89,6 +92,13 @@ const ProductDetail = () => {
               </div>
               <Button onClick={handleAdd} className="flex-1 md:flex-none md:px-12">
                 <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => wishlisted ? removeFromWishlist(product.id) : addToWishlist(product)}
+              >
+                <Heart className={`h-5 w-5 ${wishlisted ? "fill-destructive text-destructive" : ""}`} />
               </Button>
             </div>
 
