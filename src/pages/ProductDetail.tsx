@@ -93,6 +93,13 @@ const ProductDetail = () => {
               <Button onClick={handleAdd} className="flex-1 md:flex-none md:px-12">
                 <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
               </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => wishlisted ? removeFromWishlist(product.id) : addToWishlist(product)}
+              >
+                <Heart className={`h-5 w-5 ${wishlisted ? "fill-destructive text-destructive" : ""}`} />
+              </Button>
             </div>
 
             <div className="border-t border-border pt-5 space-y-2 text-sm">

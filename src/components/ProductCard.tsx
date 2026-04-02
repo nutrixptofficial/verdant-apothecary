@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart, Product } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const hasVariants = !!product.priceRange;
+  const wishlisted = isInWishlist(product.id);
+
+  const toggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    wishlisted ? removeFromWishlist(product.id) : addToWishlist(product);
+  };
 
   return (
     <div className="product-card group">
@@ -22,6 +32,12 @@ const ProductCard = ({ product }: { product: Product }) => {
             Sale!
           </span>
         )}
+        <button
+          onClick={toggleWishlist}
+          className="absolute top-3 right-3 bg-card/80 hover:bg-card rounded-full p-2 transition-colors"
+        >
+          <Heart className={`h-4 w-4 ${wishlisted ? "fill-destructive text-destructive" : "text-foreground"}`} />
+        </button>
       </Link>
       <div className="p-4 space-y-2">
         <Link to={`/product/${product.id}`}>

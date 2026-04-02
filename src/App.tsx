@@ -53,6 +53,7 @@ const App = () => (
             <Footer />
           </div>
         </BrowserRouter>
+        </WishlistProvider>
       </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>
