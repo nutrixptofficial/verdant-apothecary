@@ -19,6 +19,7 @@ const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { totalItems } = useCart();
+  const { totalWishlist } = useWishlist();
   const location = useLocation();
 
   return (
