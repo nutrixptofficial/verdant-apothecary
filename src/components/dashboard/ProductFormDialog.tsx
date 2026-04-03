@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { AdminProduct, getCategories } from "@/data/dashboard-data";
+import ImageUpload from "./ImageUpload";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Product name is required").max(200),
@@ -18,7 +19,8 @@ const schema = z.object({
   compareAtPrice: z.coerce.number().positive().optional().or(z.literal("")),
   stock: z.coerce.number().int().min(0, "Stock cannot be negative"),
   categoryId: z.string().min(1, "Category is required"),
-  image: z.string().url("Must be a valid URL").or(z.literal("")),
+  image: z.string().min(1, "Image is required"),
+  priceRange: z.string().max(50).optional(),
   status: z.boolean(),
 });
 
@@ -37,14 +39,8 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      compareAtPrice: "",
-      stock: 0,
-      categoryId: "",
-      image: "",
-      status: true,
+      name: "", description: "", price: 0, compareAtPrice: "",
+      stock: 0, categoryId: "", image: "", priceRange: "", status: true,
     },
   });
 
@@ -58,11 +54,13 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
         stock: product.stock,
         categoryId: product.categoryId,
         image: product.image,
+        priceRange: product.priceRange || "",
         status: product.status === "active",
       });
     } else {
       form.reset({
-        name: "", description: "", price: 0, compareAtPrice: "", stock: 0, categoryId: "", image: "", status: true,
+        name: "", description: "", price: 0, compareAtPrice: "",
+        stock: 0, categoryId: "", image: "", priceRange: "", status: true,
       });
     }
   }, [product, open, form]);
@@ -79,6 +77,7 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
       image: values.image || "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=200",
       status: values.status ? "active" : "draft",
       createdAt: product?.createdAt || new Date().toISOString().split("T")[0],
+      priceRange: values.priceRange || undefined,
     };
     onSave(data);
     onOpenChange(false);
@@ -151,10 +150,20 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
               )} />
             </div>
 
+            <FormField control={form.control} name="priceRange" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Price Range (optional)</FormLabel>
+                <FormControl><Input placeholder="e.g. ₨ 120–₨ 450" {...field} /></FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+
             <FormField control={form.control} name="image" render={({ field }) => (
               <FormItem>
-                <FormLabel>Image URL</FormLabel>
-                <FormControl><Input placeholder="https://..." {...field} /></FormControl>
+                <FormLabel>Product Image *</FormLabel>
+                <FormControl>
+                  <ImageUpload value={field.value} onChange={field.onChange} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )} />
