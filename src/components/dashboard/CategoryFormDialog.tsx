@@ -10,11 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { AdminCategory, getCategories } from "@/data/dashboard-data";
+import ImageUpload from "./ImageUpload";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Category name is required").max(100),
   slug: z.string().trim().min(1),
   description: z.string().max(500).optional(),
+  image: z.string().optional(),
   parentId: z.string().optional(),
   status: z.boolean(),
 });
@@ -35,7 +37,7 @@ const CategoryFormDialog = ({ open, onOpenChange, category, onSave }: Props) => 
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", slug: "", description: "", parentId: "", status: true },
+    defaultValues: { name: "", slug: "", description: "", image: "", parentId: "", status: true },
   });
 
   const nameValue = form.watch("name");
@@ -49,11 +51,12 @@ const CategoryFormDialog = ({ open, onOpenChange, category, onSave }: Props) => 
         name: category.name,
         slug: category.slug,
         description: category.description,
+        image: category.image || "",
         parentId: category.parentId || "",
         status: category.status === "active",
       });
     } else {
-      form.reset({ name: "", slug: "", description: "", parentId: "", status: true });
+      form.reset({ name: "", slug: "", description: "", image: "", parentId: "", status: true });
     }
   }, [category, open, form]);
 
@@ -63,6 +66,7 @@ const CategoryFormDialog = ({ open, onOpenChange, category, onSave }: Props) => 
       name: values.name,
       slug: values.slug,
       description: values.description || "",
+      image: values.image || undefined,
       parentId: values.parentId || undefined,
       status: values.status ? "active" : "inactive",
       createdAt: category?.createdAt || new Date().toISOString().split("T")[0],
@@ -73,7 +77,7 @@ const CategoryFormDialog = ({ open, onOpenChange, category, onSave }: Props) => 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{category ? "Edit Category" : "Add Category"}</DialogTitle>
         </DialogHeader>
@@ -99,6 +103,16 @@ const CategoryFormDialog = ({ open, onOpenChange, category, onSave }: Props) => 
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl><Textarea rows={2} {...field} /></FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+
+            <FormField control={form.control} name="image" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Category Image</FormLabel>
+                <FormControl>
+                  <ImageUpload value={field.value || ""} onChange={field.onChange} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )} />

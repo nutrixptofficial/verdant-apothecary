@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   description: string;
@@ -20,11 +20,11 @@ interface CartItem extends Product {
 interface CartContextType {
   items: CartItem[];
   addToCart: (product: Product) => void;
-  removeFromCart: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  removeFromCart: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
+  clearCart: () => void;
   totalItems: number;
   totalPrice: number;
-  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -44,16 +44,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     toast({ title: "Added to cart", description: `${product.name} has been added to your cart.` });
   }, [toast]);
 
-  const removeFromCart = useCallback((id: number) => {
+  const removeFromCart = useCallback((id: string) => {
     setItems((prev) => prev.filter((i) => i.id !== id));
   }, []);
 
-  const updateQuantity = useCallback((id: number, quantity: number) => {
-    if (quantity <= 0) {
+  const updateQuantity = useCallback((id: string, quantity: number) => {
+    if (quantity < 1) {
       setItems((prev) => prev.filter((i) => i.id !== id));
-    } else {
-      setItems((prev) => prev.map((i) => i.id === id ? { ...i, quantity } : i));
+      return;
     }
+    setItems((prev) => prev.map((i) => i.id === id ? { ...i, quantity } : i));
   }, []);
 
   const clearCart = useCallback(() => setItems([]), []);
@@ -62,7 +62,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const totalPrice = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, addToCart, removeFromCart, updateQuantity, totalItems, totalPrice, clearCart }}>
+    <CartContext.Provider value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, totalItems, totalPrice }}>
       {children}
     </CartContext.Provider>
   );

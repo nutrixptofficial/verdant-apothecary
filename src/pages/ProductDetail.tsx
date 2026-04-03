@@ -10,7 +10,7 @@ import ProductCard from "@/components/ProductCard";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = products.find((p) => p.id === Number(id));
+  const product = products.find((p) => String(p.id) === id);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [qty, setQty] = useState(1);

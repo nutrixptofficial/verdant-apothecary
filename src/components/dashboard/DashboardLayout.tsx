@@ -15,7 +15,7 @@ const pageTitles: Record<string, string> = {
 const DashboardLayout = () => {
   const location = useLocation();
   const title = pageTitles[location.pathname] || "Dashboard";
-  const showAdd = ["/dashboard/products", "/dashboard/categories"].includes(location.pathname);
+  const showAdd = ["/dashboard/products", "/dashboard/categories", "/dashboard/orders"].includes(location.pathname);
 
   return (
     <SidebarProvider>
