@@ -5,8 +5,8 @@ import { Product } from "@/contexts/CartContext";
 interface WishlistContextType {
   items: Product[];
   addToWishlist: (product: Product) => void;
-  removeFromWishlist: (id: number) => void;
-  isInWishlist: (id: number) => boolean;
+  removeFromWishlist: (id: string) => void;
+  isInWishlist: (id: string) => boolean;
   totalWishlist: number;
 }
 
@@ -24,11 +24,11 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     toast({ title: "Added to wishlist", description: `${product.name} has been added to your wishlist.` });
   }, [toast]);
 
-  const removeFromWishlist = useCallback((id: number) => {
+  const removeFromWishlist = useCallback((id: string) => {
     setItems((prev) => prev.filter((i) => i.id !== id));
   }, []);
 
-  const isInWishlist = useCallback((id: number) => {
+  const isInWishlist = useCallback((id: string) => {
     return items.some((i) => i.id === id);
   }, [items]);
 
