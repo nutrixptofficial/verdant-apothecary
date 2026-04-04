@@ -9,6 +9,7 @@ const DashboardOverview = () => {
   const products = getProducts();
   const categories = getCategories();
   const orders = getOrders();
+  const reviews = getReviews();
   const lowStock = products.filter(p => p.stock <= 5);
 
   const stats = [
@@ -16,6 +17,7 @@ const DashboardOverview = () => {
     { label: "Categories", value: categories.length, icon: FolderTree, color: "text-blue-600" },
     { label: "Low Stock", value: lowStock.length, icon: AlertTriangle, color: "text-amber-600" },
     { label: "Total Orders", value: orders.length, icon: ShoppingBag, color: "text-purple-600" },
+    { label: "Reviews", value: reviews.length, icon: Star, color: "text-yellow-600" },
   ];
 
   const recentActivity = [
