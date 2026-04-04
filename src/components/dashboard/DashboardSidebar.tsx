@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package, FolderTree, ShoppingBag, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, Package, FolderTree, ShoppingBag, Star, ArrowLeft } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Link, useLocation } from "react-router-dom";
 import {
