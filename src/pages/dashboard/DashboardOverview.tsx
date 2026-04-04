@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { getProducts, getCategories, getOrders } from "@/data/dashboard-data";
+import { getProducts, getCategories, getOrders, getReviews } from "@/data/dashboard-data";
 
 const DashboardOverview = () => {
   const products = getProducts();
