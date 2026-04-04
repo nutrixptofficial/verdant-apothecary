@@ -19,6 +19,7 @@ const items = [
   { title: "Products", url: "/dashboard/products", icon: Package },
   { title: "Categories", url: "/dashboard/categories", icon: FolderTree },
   { title: "Orders", url: "/dashboard/orders", icon: ShoppingBag },
+  { title: "Reviews", url: "/dashboard/reviews", icon: Star },
 ];
 
 export function DashboardSidebar() {
