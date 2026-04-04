@@ -7,6 +7,9 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
+import ProductImageGallery from "@/components/ProductImageGallery";
+import ProductReviews from "@/components/ProductReviews";
+import { ProductVariant } from "@/data/dashboard-data";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -15,6 +18,7 @@ const ProductDetail = () => {
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [qty, setQty] = useState(1);
   const wishlisted = product ? isInWishlist(product.id) : false;
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
 
   if (!product) {
     return (
@@ -26,9 +30,13 @@ const ProductDetail = () => {
   }
 
   const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+  const hasVariants = product.variants && product.variants.length > 0;
+  const activePrice = selectedVariant ? selectedVariant.price : product.price;
+  const activeCompare = selectedVariant?.compareAtPrice || product.originalPrice;
+  const allImages = product.images && product.images.length > 0 ? product.images : (product.image ? [product.image] : []);
 
   const handleAdd = () => {
-    for (let i = 0; i < qty; i++) addToCart(product);
+    for (let i = 0; i < qty; i++) addToCart(product, selectedVariant || undefined);
   };
 
   return (
@@ -49,10 +57,8 @@ const ProductDetail = () => {
       {/* Product */}
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Image */}
-          <div className="bg-secondary rounded-lg overflow-hidden">
-            <img src={product.image} alt={product.name} className="w-full aspect-square object-cover" />
-          </div>
+          {/* Image Gallery */}
+          <ProductImageGallery images={allImages} name={product.name} />
 
           {/* Info */}
           <div className="space-y-5">
@@ -68,17 +74,37 @@ const ProductDetail = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              {product.originalPrice && (
-                <span className="text-lg text-muted-foreground line-through">₨ {product.originalPrice.toLocaleString()}</span>
+              {activeCompare && (
+                <span className="text-lg text-muted-foreground line-through">₨ {activeCompare.toLocaleString()}</span>
               )}
-              {product.priceRange ? (
-                <span className="text-2xl font-bold text-foreground">{product.priceRange}</span>
-              ) : (
-                <span className="text-2xl font-bold text-foreground">₨ {product.price.toLocaleString()}</span>
-              )}
+              <span className="text-2xl font-bold text-foreground">₨ {activePrice.toLocaleString()}</span>
             </div>
 
             <p className="text-muted-foreground">{product.description}</p>
+
+            {/* Variants */}
+            {hasVariants && (
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">Size / Quantity</label>
+                <div className="flex flex-wrap gap-2">
+                  {product.variants!.map((v) => (
+                    <button
+                      key={v.id}
+                      onClick={() => setSelectedVariant(v)}
+                      className={`px-4 py-2 rounded-md border text-sm font-medium transition-all ${
+                        selectedVariant?.id === v.id
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border hover:border-primary text-foreground"
+                      } ${v.stock === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+                      disabled={v.stock === 0}
+                    >
+                      {v.label}
+                      {v.stock === 0 && " (Out of stock)"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="flex items-center gap-4 pt-2">
               <div className="flex items-center border border-border rounded-md">
@@ -90,7 +116,11 @@ const ProductDetail = () => {
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
-              <Button onClick={handleAdd} className="flex-1 md:flex-none md:px-12">
+              <Button
+                onClick={handleAdd}
+                className="flex-1 md:flex-none md:px-12"
+                disabled={hasVariants && !selectedVariant}
+              >
                 <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
               </Button>
               <Button
@@ -101,6 +131,10 @@ const ProductDetail = () => {
                 <Heart className={`h-5 w-5 ${wishlisted ? "fill-destructive text-destructive" : ""}`} />
               </Button>
             </div>
+
+            {hasVariants && !selectedVariant && (
+              <p className="text-sm text-muted-foreground italic">Please select a variant to add to cart</p>
+            )}
 
             <div className="border-t border-border pt-5 space-y-2 text-sm">
               <p><span className="text-muted-foreground">Category:</span>{" "}
@@ -121,7 +155,7 @@ const ProductDetail = () => {
             <p className="text-muted-foreground leading-relaxed">{product.description}. Our products are 100% natural, lab tested, and sourced from premium quality herbs. We ensure that every product meets the highest standards of purity and effectiveness.</p>
           </TabsContent>
           <TabsContent value="reviews" className="py-6">
-            <p className="text-muted-foreground">No reviews yet. Be the first to review this product.</p>
+            <ProductReviews productId={product.id} />
           </TabsContent>
         </Tabs>
 

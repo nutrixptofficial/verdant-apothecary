@@ -10,6 +10,7 @@ const pageTitles: Record<string, string> = {
   "/dashboard/products": "Products",
   "/dashboard/categories": "Categories",
   "/dashboard/orders": "Orders",
+  "/dashboard/reviews": "Reviews",
 };
 
 const DashboardLayout = () => {

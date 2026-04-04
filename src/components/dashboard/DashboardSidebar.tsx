@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package, FolderTree, ShoppingBag, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, Package, FolderTree, ShoppingBag, Star, ArrowLeft } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -19,6 +19,7 @@ const items = [
   { title: "Products", url: "/dashboard/products", icon: Package },
   { title: "Categories", url: "/dashboard/categories", icon: FolderTree },
   { title: "Orders", url: "/dashboard/orders", icon: ShoppingBag },
+  { title: "Reviews", url: "/dashboard/reviews", icon: Star },
 ];
 
 export function DashboardSidebar() {

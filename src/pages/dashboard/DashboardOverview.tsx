@@ -1,14 +1,15 @@
-import { Package, FolderTree, AlertTriangle, ShoppingBag, Plus } from "lucide-react";
+import { Package, FolderTree, AlertTriangle, ShoppingBag, Star, Plus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { getProducts, getCategories, getOrders } from "@/data/dashboard-data";
+import { getProducts, getCategories, getOrders, getReviews } from "@/data/dashboard-data";
 
 const DashboardOverview = () => {
   const products = getProducts();
   const categories = getCategories();
   const orders = getOrders();
+  const reviews = getReviews();
   const lowStock = products.filter(p => p.stock <= 5);
 
   const stats = [
@@ -16,6 +17,7 @@ const DashboardOverview = () => {
     { label: "Categories", value: categories.length, icon: FolderTree, color: "text-blue-600" },
     { label: "Low Stock", value: lowStock.length, icon: AlertTriangle, color: "text-amber-600" },
     { label: "Total Orders", value: orders.length, icon: ShoppingBag, color: "text-purple-600" },
+    { label: "Reviews", value: reviews.length, icon: Star, color: "text-yellow-600" },
   ];
 
   const recentActivity = [
