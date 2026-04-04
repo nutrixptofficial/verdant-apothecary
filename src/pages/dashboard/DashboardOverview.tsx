@@ -1,4 +1,4 @@
-import { Package, FolderTree, AlertTriangle, ShoppingBag, Plus } from "lucide-react";
+import { Package, FolderTree, AlertTriangle, ShoppingBag, Star, Plus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
