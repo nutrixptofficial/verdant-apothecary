@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { ProductVariant } from "@/data/dashboard-data";
 
 export interface Product {
   id: string;
@@ -9,17 +10,20 @@ export interface Product {
   category: string;
   rating: number;
   image?: string;
+  images?: string[];
   priceRange?: string;
   originalPrice?: number;
+  variants?: ProductVariant[];
 }
 
 interface CartItem extends Product {
   quantity: number;
+  selectedVariant?: ProductVariant;
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (product: Product) => void;
+  addToCart: (product: Product, variant?: ProductVariant) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -33,15 +37,17 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [items, setItems] = useState<CartItem[]>([]);
   const { toast } = useToast();
 
-  const addToCart = useCallback((product: Product) => {
+  const addToCart = useCallback((product: Product, variant?: ProductVariant) => {
+    const cartId = variant ? `${product.id}-${variant.id}` : product.id;
+    const price = variant ? variant.price : product.price;
     setItems((prev) => {
-      const existing = prev.find((i) => i.id === product.id);
+      const existing = prev.find((i) => i.id === cartId);
       if (existing) {
-        return prev.map((i) => i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i);
+        return prev.map((i) => i.id === cartId ? { ...i, quantity: i.quantity + 1 } : i);
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, id: cartId, price, quantity: 1, selectedVariant: variant }];
     });
-    toast({ title: "Added to cart", description: `${product.name} has been added to your cart.` });
+    toast({ title: "Added to cart", description: `${product.name}${variant ? ` (${variant.label})` : ""} has been added to your cart.` });
   }, [toast]);
 
   const removeFromCart = useCallback((id: string) => {
