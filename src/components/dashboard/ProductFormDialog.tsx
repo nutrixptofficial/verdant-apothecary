@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -9,8 +9,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { AdminProduct, getCategories } from "@/data/dashboard-data";
-import ImageUpload from "./ImageUpload";
+import { AdminProduct, getCategories, ProductVariant } from "@/data/dashboard-data";
+import MultiImageUpload from "./MultiImageUpload";
+import { Plus, Trash2 } from "lucide-react";
+
+const variantSchema = z.object({
+  id: z.string(),
+  label: z.string().min(1, "Label required"),
+  price: z.coerce.number().positive("Price must be positive"),
+  compareAtPrice: z.coerce.number().positive().optional().or(z.literal("")),
+  stock: z.coerce.number().int().min(0),
+});
 
 const schema = z.object({
   name: z.string().trim().min(1, "Product name is required").max(200),
@@ -19,9 +28,10 @@ const schema = z.object({
   compareAtPrice: z.coerce.number().positive().optional().or(z.literal("")),
   stock: z.coerce.number().int().min(0, "Stock cannot be negative"),
   categoryId: z.string().min(1, "Category is required"),
-  image: z.string().min(1, "Image is required"),
+  images: z.array(z.string()).min(1, "At least one image is required"),
   priceRange: z.string().max(50).optional(),
   status: z.boolean(),
+  variants: z.array(variantSchema).optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -40,9 +50,11 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
     resolver: zodResolver(schema),
     defaultValues: {
       name: "", description: "", price: 0, compareAtPrice: "",
-      stock: 0, categoryId: "", image: "", priceRange: "", status: true,
+      stock: 0, categoryId: "", images: [], priceRange: "", status: true, variants: [],
     },
   });
+
+  const { fields, append, remove } = useFieldArray({ control: form.control, name: "variants" });
 
   useEffect(() => {
     if (product) {
@@ -53,19 +65,31 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
         compareAtPrice: product.compareAtPrice || "",
         stock: product.stock,
         categoryId: product.categoryId,
-        image: product.image,
+        images: product.images || (product.image ? [product.image] : []),
         priceRange: product.priceRange || "",
         status: product.status === "active",
+        variants: product.variants?.map(v => ({ ...v, compareAtPrice: v.compareAtPrice || "" })) || [],
       });
     } else {
       form.reset({
         name: "", description: "", price: 0, compareAtPrice: "",
-        stock: 0, categoryId: "", image: "", priceRange: "", status: true,
+        stock: 0, categoryId: "", images: [], priceRange: "", status: true, variants: [],
       });
     }
   }, [product, open, form]);
 
   const onSubmit = (values: FormValues) => {
+    const imgs = values.images.length > 0 ? values.images : ["https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=200"];
+    const variants: ProductVariant[] | undefined = values.variants && values.variants.length > 0
+      ? values.variants.map(v => ({
+          id: v.id,
+          label: v.label,
+          price: v.price,
+          compareAtPrice: typeof v.compareAtPrice === "number" ? v.compareAtPrice : undefined,
+          stock: v.stock,
+        }))
+      : undefined;
+
     const data: AdminProduct = {
       id: product?.id || `prod-${Date.now()}`,
       name: values.name,
@@ -74,10 +98,12 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
       compareAtPrice: typeof values.compareAtPrice === "number" ? values.compareAtPrice : undefined,
       stock: values.stock,
       categoryId: values.categoryId,
-      image: values.image || "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=200",
+      image: imgs[0],
+      images: imgs,
       status: values.status ? "active" : "draft",
       createdAt: product?.createdAt || new Date().toISOString().split("T")[0],
       priceRange: values.priceRange || undefined,
+      variants,
     };
     onSave(data);
     onOpenChange(false);
@@ -85,7 +111,7 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{product ? "Edit Product" : "Add Product"}</DialogTitle>
         </DialogHeader>
@@ -110,7 +136,7 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
             <div className="grid grid-cols-2 gap-4">
               <FormField control={form.control} name="price" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price (₨) *</FormLabel>
+                  <FormLabel>Base Price (₨) *</FormLabel>
                   <FormControl><Input type="number" step="0.01" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
@@ -152,21 +178,64 @@ const ProductFormDialog = ({ open, onOpenChange, product, onSave }: Props) => {
 
             <FormField control={form.control} name="priceRange" render={({ field }) => (
               <FormItem>
-                <FormLabel>Price Range (optional)</FormLabel>
+                <FormLabel>Price Range Display (optional)</FormLabel>
                 <FormControl><Input placeholder="e.g. ₨ 120–₨ 450" {...field} /></FormControl>
                 <FormMessage />
               </FormItem>
             )} />
 
-            <FormField control={form.control} name="image" render={({ field }) => (
+            <FormField control={form.control} name="images" render={({ field }) => (
               <FormItem>
-                <FormLabel>Product Image *</FormLabel>
+                <FormLabel>Product Images *</FormLabel>
                 <FormControl>
-                  <ImageUpload value={field.value} onChange={field.onChange} />
+                  <MultiImageUpload value={field.value} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )} />
+
+            {/* Variants section */}
+            <div className="border border-border rounded-lg p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-foreground">Variants (optional)</h3>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => append({ id: `var-${Date.now()}`, label: "", price: 0, compareAtPrice: "", stock: 0 })}
+                >
+                  <Plus className="h-3 w-3 mr-1" /> Add Variant
+                </Button>
+              </div>
+              {fields.length === 0 && (
+                <p className="text-xs text-muted-foreground">No variants. Product will be sold as a single option.</p>
+              )}
+              {fields.map((field, idx) => (
+                <div key={field.id} className="grid grid-cols-12 gap-2 items-end border-b border-border pb-3 last:border-0">
+                  <div className="col-span-3">
+                    <label className="text-xs text-muted-foreground">Label *</label>
+                    <Input {...form.register(`variants.${idx}.label`)} placeholder="e.g. 100g" className="text-sm" />
+                  </div>
+                  <div className="col-span-3">
+                    <label className="text-xs text-muted-foreground">Price *</label>
+                    <Input type="number" step="0.01" {...form.register(`variants.${idx}.price`, { valueAsNumber: true })} className="text-sm" />
+                  </div>
+                  <div className="col-span-3">
+                    <label className="text-xs text-muted-foreground">Compare Price</label>
+                    <Input type="number" step="0.01" {...form.register(`variants.${idx}.compareAtPrice`)} placeholder="—" className="text-sm" />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="text-xs text-muted-foreground">Stock</label>
+                    <Input type="number" {...form.register(`variants.${idx}.stock`, { valueAsNumber: true })} className="text-sm" />
+                  </div>
+                  <div className="col-span-1 flex justify-center">
+                    <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => remove(idx)}>
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
 
             <FormField control={form.control} name="status" render={({ field }) => (
               <FormItem className="flex items-center justify-between rounded-lg border border-border p-3">

@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
-import { Pencil, Trash2, MoreHorizontal } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { Pencil, Trash2, MoreHorizontal, Search, ArrowUpDown } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import OrderFormDialog from "@/components/dashboard/OrderFormDialog";
-import { AdminOrder, getOrders, addOrder, updateOrder, deleteOrder } from "@/data/dashboard-data";
+import { AdminOrder, getOrders, addOrder, updateOrder, deleteOrder, getProducts } from "@/data/dashboard-data";
 
 const statusColor: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
   pending: "outline",
@@ -17,12 +19,23 @@ const statusColor: Record<string, "default" | "secondary" | "destructive" | "out
   cancelled: "destructive",
 };
 
+type SortKey = "total" | "date" | "items";
+
 const DashboardOrders = () => {
   const { toast } = useToast();
   const [orders, setOrders] = useState<AdminOrder[]>(getOrders());
+  const products = getProducts();
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<AdminOrder | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  // Filters
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterProduct, setFilterProduct] = useState("all");
+  const [priceRange, setPriceRange] = useState("all");
+  const [sortKey, setSortKey] = useState<SortKey>("date");
+  const [sortAsc, setSortAsc] = useState(false);
 
   useEffect(() => {
     const btn = document.getElementById("dashboard-add-btn");
@@ -33,6 +46,38 @@ const DashboardOrders = () => {
   }, []);
 
   const reload = () => setOrders(getOrders());
+
+  const filtered = useMemo(() => {
+    let list = orders;
+    if (search) list = list.filter(o =>
+      o.customer.toLowerCase().includes(search.toLowerCase()) ||
+      o.id.toLowerCase().includes(search.toLowerCase()) ||
+      o.email.toLowerCase().includes(search.toLowerCase())
+    );
+    if (filterStatus !== "all") list = list.filter(o => o.status === filterStatus);
+    if (filterProduct !== "all") list = list.filter(o => o.productNames?.some(n => n.toLowerCase().includes(filterProduct.toLowerCase())));
+    if (priceRange !== "all") {
+      list = list.filter(o => {
+        if (priceRange === "0-500") return o.total <= 500;
+        if (priceRange === "500-1000") return o.total > 500 && o.total <= 1000;
+        if (priceRange === "1000-2000") return o.total > 1000 && o.total <= 2000;
+        if (priceRange === "2000+") return o.total > 2000;
+        return true;
+      });
+    }
+    list = [...list].sort((a, b) => {
+      const v = sortAsc ? 1 : -1;
+      if (sortKey === "total") return (a.total - b.total) * v;
+      if (sortKey === "items") return (a.items - b.items) * v;
+      return (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * v;
+    });
+    return list;
+  }, [orders, search, filterStatus, filterProduct, priceRange, sortKey, sortAsc]);
+
+  const toggleSort = (key: SortKey) => {
+    if (sortKey === key) setSortAsc(!sortAsc);
+    else { setSortKey(key); setSortAsc(true); }
+  };
 
   const handleSave = (o: AdminOrder) => {
     if (editing) { updateOrder(o); toast({ title: "Order updated" }); }
@@ -50,6 +95,42 @@ const DashboardOrders = () => {
 
   return (
     <div className="space-y-4">
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input placeholder="Search orders..." className="pl-9" value={search} onChange={e => setSearch(e.target.value)} />
+        </div>
+        <Select value={filterStatus} onValueChange={setFilterStatus}>
+          <SelectTrigger className="w-36"><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="processing">Processing</SelectItem>
+            <SelectItem value="shipped">Shipped</SelectItem>
+            <SelectItem value="delivered">Delivered</SelectItem>
+            <SelectItem value="cancelled">Cancelled</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={priceRange} onValueChange={setPriceRange}>
+          <SelectTrigger className="w-36"><SelectValue placeholder="Price" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Prices</SelectItem>
+            <SelectItem value="0-500">₨ 0 – 500</SelectItem>
+            <SelectItem value="500-1000">₨ 500 – 1,000</SelectItem>
+            <SelectItem value="1000-2000">₨ 1,000 – 2,000</SelectItem>
+            <SelectItem value="2000+">₨ 2,000+</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={filterProduct} onValueChange={setFilterProduct}>
+          <SelectTrigger className="w-44"><SelectValue placeholder="Product" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Products</SelectItem>
+            {products.map(p => <SelectItem key={p.id} value={p.name}>{p.name.substring(0, 30)}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </div>
+
       <Button variant="outline" className="sm:hidden" onClick={() => { setEditing(null); setFormOpen(true); }}>+ Add Order</Button>
 
       <div className="rounded-lg border border-border bg-card overflow-x-auto">
@@ -58,24 +139,37 @@ const DashboardOrders = () => {
             <TableRow>
               <TableHead>Order ID</TableHead>
               <TableHead>Customer</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Items</TableHead>
-              <TableHead>Total</TableHead>
+              <TableHead>Products</TableHead>
+              <TableHead className="cursor-pointer" onClick={() => toggleSort("items")}>
+                <span className="flex items-center gap-1">Items <ArrowUpDown className="h-3 w-3" /></span>
+              </TableHead>
+              <TableHead className="cursor-pointer" onClick={() => toggleSort("total")}>
+                <span className="flex items-center gap-1">Total <ArrowUpDown className="h-3 w-3" /></span>
+              </TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead className="cursor-pointer" onClick={() => toggleSort("date")}>
+                <span className="flex items-center gap-1">Date <ArrowUpDown className="h-3 w-3" /></span>
+              </TableHead>
               <TableHead className="w-12"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.map(o => (
+            {filtered.length === 0 ? (
+              <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">No orders found</TableCell></TableRow>
+            ) : filtered.map(o => (
               <TableRow key={o.id}>
                 <TableCell className="font-medium">{o.id}</TableCell>
-                <TableCell>{o.customer}</TableCell>
-                <TableCell className="text-muted-foreground text-sm">{o.email}</TableCell>
-                <TableCell className="text-muted-foreground text-sm">{o.phone || "—"}</TableCell>
+                <TableCell>
+                  <div>
+                    <p className="text-sm font-medium">{o.customer}</p>
+                    <p className="text-xs text-muted-foreground">{o.email}</p>
+                  </div>
+                </TableCell>
+                <TableCell className="text-sm text-muted-foreground max-w-[150px] truncate">
+                  {o.productNames?.join(", ") || "—"}
+                </TableCell>
                 <TableCell>{o.items}</TableCell>
-                <TableCell>₨ {o.total.toLocaleString()}</TableCell>
+                <TableCell className="font-medium">₨ {o.total.toLocaleString()}</TableCell>
                 <TableCell>
                   <Badge variant={statusColor[o.status] || "secondary"} className="capitalize">{o.status}</Badge>
                 </TableCell>
