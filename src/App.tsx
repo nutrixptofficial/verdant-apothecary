@@ -25,6 +25,7 @@ import DashboardOverview from "./pages/dashboard/DashboardOverview";
 import DashboardProducts from "./pages/dashboard/DashboardProducts";
 import DashboardCategories from "./pages/dashboard/DashboardCategories";
 import DashboardOrders from "./pages/dashboard/DashboardOrders";
+import DashboardReviews from "./pages/dashboard/DashboardReviews";
 
 const queryClient = new QueryClient();
 
