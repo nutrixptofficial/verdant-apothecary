@@ -48,7 +48,12 @@ const DashboardCategories = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {categories.map(c => (
-          <Card key={c.id}>
+          <Card key={c.id} className="overflow-hidden">
+            {c.image && (
+              <div className="h-32 overflow-hidden">
+                <img src={c.image} alt={c.name} className="w-full h-full object-cover" />
+              </div>
+            )}
             <CardContent className="p-5 space-y-3">
               <div className="flex items-start justify-between">
                 <div>
