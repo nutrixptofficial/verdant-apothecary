@@ -221,6 +221,16 @@ const defaultReviews: Review[] = [
   { id: "rev-6", productId: "prod-8", author: "Kamran Sheikh", rating: 5, text: "Best cardamom I've found online. Very fragrant and fresh.", status: "visible", createdAt: "2025-03-28" },
 ];
 
+const DATA_VERSION = "v2-webp";
+const VERSION_KEY = "admin_data_version";
+
+// Force refresh when data structure changes (e.g. new images)
+if (typeof window !== "undefined" && localStorage.getItem(VERSION_KEY) !== DATA_VERSION) {
+  localStorage.removeItem("admin_products");
+  localStorage.removeItem("admin_categories");
+  localStorage.setItem(VERSION_KEY, DATA_VERSION);
+}
+
 function getStore<T>(key: string, defaults: T[]): T[] {
   const stored = localStorage.getItem(key);
   if (stored) return JSON.parse(stored);
