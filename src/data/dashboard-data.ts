@@ -7,6 +7,13 @@ import prodNeem from "@/assets/prod-neem.jpg";
 import prodRedChilli from "@/assets/prod-red-chilli.jpg";
 import prodCardamom from "@/assets/prod-cardamom.jpg";
 
+import catArqiyat from "@/assets/cat-arqiyat.jpg";
+import catDryfruits from "@/assets/cat-dryfruits.jpg";
+import catPreserves from "@/assets/cat-preserves.jpg";
+import catOils from "@/assets/cat-oils.jpg";
+import catHerbs from "@/assets/cat-herbs.jpg";
+import catSpices from "@/assets/cat-spices.jpg";
+
 export interface ProductVariant {
   id: string;
   label: string; // e.g. "50g", "100g", "250g"
@@ -70,12 +77,12 @@ export interface Review {
 }
 
 const defaultCategories: AdminCategory[] = [
-  { id: "cat-1", name: "Herbs", slug: "herbs", description: "Natural medicinal herbs", status: "active", createdAt: "2025-01-10" },
-  { id: "cat-2", name: "Spices", slug: "spices", description: "Premium quality spices", status: "active", createdAt: "2025-01-10" },
-  { id: "cat-3", name: "Dry Fruits", slug: "dry-fruits", description: "Dried fruits and nuts", status: "active", createdAt: "2025-01-12" },
-  { id: "cat-4", name: "Herbal Oils", slug: "herbal-oils", description: "Essential and herbal oils", status: "active", createdAt: "2025-01-15" },
-  { id: "cat-5", name: "Arqiyat", slug: "arqiyat", description: "Traditional herbal distillates", status: "active", createdAt: "2025-01-18" },
-  { id: "cat-6", name: "Fruit Preserves", slug: "fruit-preserves", description: "Natural fruit preserves and jams", status: "active", createdAt: "2025-02-01" },
+  { id: "cat-1", name: "Herbs", slug: "herbs", description: "Natural medicinal herbs", image: catHerbs, status: "active", createdAt: "2025-01-10" },
+  { id: "cat-2", name: "Spices", slug: "spices", description: "Premium quality spices", image: catSpices, status: "active", createdAt: "2025-01-10" },
+  { id: "cat-3", name: "Dry Fruits", slug: "dry-fruits", description: "Dried fruits and nuts", image: catDryfruits, status: "active", createdAt: "2025-01-12" },
+  { id: "cat-4", name: "Herbal Oils", slug: "herbal-oils", description: "Essential and herbal oils", image: catOils, status: "active", createdAt: "2025-01-15" },
+  { id: "cat-5", name: "Arqiyat", slug: "arqiyat", description: "Traditional herbal distillates", image: catArqiyat, status: "active", createdAt: "2025-01-18" },
+  { id: "cat-6", name: "Fruit Preserves", slug: "fruit-preserves", description: "Natural fruit preserves and jams", image: catPreserves, status: "active", createdAt: "2025-02-01" },
 ];
 
 const defaultProducts: AdminProduct[] = [

@@ -1,5 +1,12 @@
 import { Product } from "@/contexts/CartContext";
-import { getProducts, getCategories } from "@/data/dashboard-data";
+import { getProducts, getCategories, AdminCategory } from "@/data/dashboard-data";
+
+export interface StorefrontCategory {
+  name: string;
+  slug: string;
+  image?: string;
+  description: string;
+}
 
 function buildProducts(): Product[] {
   const adminProducts = getProducts().filter(p => p.status === "active");
@@ -29,8 +36,21 @@ function buildCategories(): string[] {
     .map(c => c.name);
 }
 
+function buildCategoryObjects(): StorefrontCategory[] {
+  return getCategories()
+    .filter(c => c.status === "active")
+    .map(c => ({
+      name: c.name,
+      slug: c.slug,
+      image: c.image,
+      description: c.description,
+    }));
+}
+
 export const products: Product[] = buildProducts();
 export const categories: string[] = buildCategories();
+export const categoryObjects: StorefrontCategory[] = buildCategoryObjects();
 
 export const getStorefrontProducts = buildProducts;
 export const getStorefrontCategories = buildCategories;
+export const getStorefrontCategoryObjects = buildCategoryObjects;
