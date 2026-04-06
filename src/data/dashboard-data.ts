@@ -1,18 +1,22 @@
-import prodSaffron from "@/assets/prod-saffron.jpg";
-import prodAnardana from "@/assets/prod-anardana.jpg";
+import prodSaffron from "@/assets/prod-saffron.webp";
+import prodAnardana from "@/assets/prod-anardana.webp";
 import prodKaliMirch from "@/assets/prod-kali-mirch.jpg";
-import prodBlackPepper from "@/assets/prod-black-pepper.jpg";
-import prodGinger from "@/assets/prod-ginger.jpg";
-import prodNeem from "@/assets/prod-neem.jpg";
+import prodBlackPepper from "@/assets/prod-black-pepper.webp";
+import prodGinger from "@/assets/prod-ginger.webp";
+import prodNeem from "@/assets/prod-neem.webp";
 import prodRedChilli from "@/assets/prod-red-chilli.jpg";
-import prodCardamom from "@/assets/prod-cardamom.jpg";
+import prodCardamom from "@/assets/prod-cardamom.webp";
+import prodShikakai from "@/assets/prod-shikakai.webp";
+import prodAshwagandha from "@/assets/prod-ashwagandha.webp";
+import prodWhitePepper from "@/assets/prod-white-pepper.webp";
+import prodCumin from "@/assets/prod-cumin.jpg";
 
-import catArqiyat from "@/assets/cat-arqiyat.jpg";
-import catDryfruits from "@/assets/cat-dryfruits.jpg";
-import catPreserves from "@/assets/cat-preserves.jpg";
-import catOils from "@/assets/cat-oils.jpg";
-import catHerbs from "@/assets/cat-herbs.jpg";
-import catSpices from "@/assets/cat-spices.jpg";
+import catArqiyat from "@/assets/cat-arqiyat.webp";
+import catDryfruits from "@/assets/cat-dryfruits.webp";
+import catPreserves from "@/assets/cat-preserves.webp";
+import catOils from "@/assets/cat-oils.webp";
+import catHerbs from "@/assets/cat-herbs.webp";
+import catSpices from "@/assets/cat-spices.webp";
 
 export interface ProductVariant {
   id: string;
@@ -161,7 +165,7 @@ const defaultProducts: AdminProduct[] = [
   },
   {
     id: "prod-9", name: "Ashwagandha | Asgand Nagori", price: 150, stock: 2, categoryId: "cat-1",
-    image: prodGinger, images: [prodGinger],
+    image: prodAshwagandha, images: [prodAshwagandha],
     status: "active", description: "Withania Somnifera root", createdAt: "2025-03-01", rating: 5, priceRange: "₨ 150–₨ 1,500",
     variants: [
       { id: "v9-1", label: "50g", price: 150, stock: 2 },
@@ -171,7 +175,7 @@ const defaultProducts: AdminProduct[] = [
   },
   {
     id: "prod-10", name: "Shikakai | Soap Pod | سکاکائی", price: 60, stock: 70, categoryId: "cat-1",
-    image: prodNeem, images: [prodNeem],
+    image: prodShikakai, images: [prodShikakai],
     status: "active", description: "Natural hair care herb", createdAt: "2025-03-05", rating: 4, priceRange: "₨ 60–₨ 650",
     variants: [
       { id: "v10-1", label: "100g", price: 60, stock: 70 },
@@ -181,7 +185,7 @@ const defaultProducts: AdminProduct[] = [
   },
   {
     id: "prod-11", name: "White Pepper Whole | Safeed Mirch", price: 320, stock: 30, categoryId: "cat-2",
-    image: prodBlackPepper, images: [prodBlackPepper],
+    image: prodWhitePepper, images: [prodWhitePepper],
     status: "active", description: "Premium whole white pepper", createdAt: "2025-03-08", rating: 4, priceRange: "₨ 320–₨ 620",
     variants: [
       { id: "v11-1", label: "50g", price: 320, stock: 30 },
@@ -190,7 +194,7 @@ const defaultProducts: AdminProduct[] = [
   },
   {
     id: "prod-12", name: "Zeera Sabat Safeed (White Cumin)", price: 150, stock: 50, categoryId: "cat-2",
-    image: prodCardamom, images: [prodCardamom],
+    image: prodCumin, images: [prodCumin],
     status: "active", description: "Whole white cumin seeds", createdAt: "2025-03-10", rating: 4, priceRange: "₨ 150–₨ 450",
     variants: [
       { id: "v12-1", label: "100g", price: 150, stock: 50 },
@@ -216,6 +220,16 @@ const defaultReviews: Review[] = [
   { id: "rev-5", productId: "prod-7", author: "Hina Malik", rating: 4, text: "Good quality red chilli powder. Not too spicy, perfect balance.", status: "visible", createdAt: "2025-03-25" },
   { id: "rev-6", productId: "prod-8", author: "Kamran Sheikh", rating: 5, text: "Best cardamom I've found online. Very fragrant and fresh.", status: "visible", createdAt: "2025-03-28" },
 ];
+
+const DATA_VERSION = "v2-webp";
+const VERSION_KEY = "admin_data_version";
+
+// Force refresh when data structure changes (e.g. new images)
+if (typeof window !== "undefined" && localStorage.getItem(VERSION_KEY) !== DATA_VERSION) {
+  localStorage.removeItem("admin_products");
+  localStorage.removeItem("admin_categories");
+  localStorage.setItem(VERSION_KEY, DATA_VERSION);
+}
 
 function getStore<T>(key: string, defaults: T[]): T[] {
   const stored = localStorage.getItem(key);

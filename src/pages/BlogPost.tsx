@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Calendar, Eye, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import catHerbs from "@/assets/cat-herbs.jpg";
+import catHerbs from "@/assets/cat-herbs.webp";
 
 const blogPostsData = [
   {

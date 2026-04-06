@@ -8,8 +8,8 @@ import ProductCard from "@/components/ProductCard";
 import { products, categoryObjects } from "@/data/products";
 
 import heroBg from "@/assets/hero-bg.jpg";
-import catHerbs from "@/assets/cat-herbs.jpg";
-import catSpices from "@/assets/cat-spices.jpg";
+import catHerbs from "@/assets/cat-herbs.webp";
+import catSpices from "@/assets/cat-spices.webp";
 
 /* ─── Hero Slider ─── */
 const heroSlides = [
