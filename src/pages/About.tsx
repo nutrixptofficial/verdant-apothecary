@@ -1,6 +1,6 @@
 import { Leaf } from "lucide-react";
-import catHerbs from "@/assets/cat-herbs.jpg";
-import catSpices from "@/assets/cat-spices.jpg";
+import catHerbs from "@/assets/cat-herbs.webp";
+import catSpices from "@/assets/cat-spices.webp";
 
 const About = () => (
   <div>

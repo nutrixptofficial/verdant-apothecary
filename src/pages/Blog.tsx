@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Calendar, Eye } from "lucide-react";
-import catHerbs from "@/assets/cat-herbs.jpg";
+import catHerbs from "@/assets/cat-herbs.webp";
 import { blogPostsData } from "@/pages/BlogPost";
 
 const Blog = () => (
