@@ -1,18 +1,22 @@
-import prodSaffron from "@/assets/prod-saffron.jpg";
-import prodAnardana from "@/assets/prod-anardana.jpg";
+import prodSaffron from "@/assets/prod-saffron.webp";
+import prodAnardana from "@/assets/prod-anardana.webp";
 import prodKaliMirch from "@/assets/prod-kali-mirch.jpg";
-import prodBlackPepper from "@/assets/prod-black-pepper.jpg";
-import prodGinger from "@/assets/prod-ginger.jpg";
-import prodNeem from "@/assets/prod-neem.jpg";
+import prodBlackPepper from "@/assets/prod-black-pepper.webp";
+import prodGinger from "@/assets/prod-ginger.webp";
+import prodNeem from "@/assets/prod-neem.webp";
 import prodRedChilli from "@/assets/prod-red-chilli.jpg";
-import prodCardamom from "@/assets/prod-cardamom.jpg";
+import prodCardamom from "@/assets/prod-cardamom.webp";
+import prodShikakai from "@/assets/prod-shikakai.webp";
+import prodAshwagandha from "@/assets/prod-ashwagandha.webp";
+import prodWhitePepper from "@/assets/prod-white-pepper.webp";
+import prodCumin from "@/assets/prod-cumin.jpg";
 
-import catArqiyat from "@/assets/cat-arqiyat.jpg";
-import catDryfruits from "@/assets/cat-dryfruits.jpg";
-import catPreserves from "@/assets/cat-preserves.jpg";
-import catOils from "@/assets/cat-oils.jpg";
-import catHerbs from "@/assets/cat-herbs.jpg";
-import catSpices from "@/assets/cat-spices.jpg";
+import catArqiyat from "@/assets/cat-arqiyat.webp";
+import catDryfruits from "@/assets/cat-dryfruits.webp";
+import catPreserves from "@/assets/cat-preserves.webp";
+import catOils from "@/assets/cat-oils.webp";
+import catHerbs from "@/assets/cat-herbs.webp";
+import catSpices from "@/assets/cat-spices.webp";
 
 export interface ProductVariant {
   id: string;
