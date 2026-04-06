@@ -5,13 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/products";
+import { products, categoryObjects } from "@/data/products";
 
 import heroBg from "@/assets/hero-bg.jpg";
-import catArqiyat from "@/assets/cat-arqiyat.jpg";
-import catDryfruits from "@/assets/cat-dryfruits.jpg";
-import catPreserves from "@/assets/cat-preserves.jpg";
-import catOils from "@/assets/cat-oils.jpg";
 import catHerbs from "@/assets/cat-herbs.jpg";
 import catSpices from "@/assets/cat-spices.jpg";
 
@@ -105,29 +101,26 @@ const ShippingBanner = () => (
 );
 
 /* ─── Categories ─── */
-const categoryData = [
-  { name: "Arqiyat", image: catArqiyat },
-  { name: "Dry Fruits", image: catDryfruits },
-  { name: "Fruit Preserves", image: catPreserves },
-  { name: "Herbal Oils", image: catOils },
-  { name: "Herbs", image: catHerbs },
-  { name: "Species", image: catSpices },
-];
-
 const Categories = () => (
   <section className="max-w-7xl mx-auto px-4 lg:px-8 py-12">
     <div className="grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-8">
-      {categoryData.map((cat) => (
-        <Link to="/products" key={cat.name} className="flex flex-col items-center gap-3 group">
+      {categoryObjects.map((cat) => (
+        <Link to={`/collections/${cat.slug}`} key={cat.name} className="flex flex-col items-center gap-3 group">
           <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-border group-hover:border-primary transition-colors">
-            <img
-              src={cat.image}
-              alt={cat.name}
-              loading="lazy"
-              width={112}
-              height={112}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            {cat.image ? (
+              <img
+                src={cat.image}
+                alt={cat.name}
+                loading="lazy"
+                width={112}
+                height={112}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+            ) : (
+              <div className="w-full h-full bg-secondary flex items-center justify-center text-muted-foreground text-xs">
+                {cat.name}
+              </div>
+            )}
           </div>
           <span className="text-sm font-medium text-foreground text-center">{cat.name}</span>
         </Link>
