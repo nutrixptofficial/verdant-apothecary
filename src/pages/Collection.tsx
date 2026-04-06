@@ -1,18 +1,24 @@
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { products, categories } from "@/data/products";
+import { products, categoryObjects } from "@/data/products";
 
 const Collection = () => {
   const { slug } = useParams();
-  const categoryName = categories.find((c) => c.toLowerCase().replace(/\s/g, "-") === slug) || slug || "";
+  const category = categoryObjects.find((c) => c.slug === slug);
+  const categoryName = category?.name || slug || "";
   const filtered = products.filter((p) => p.category.toLowerCase().replace(/\s/g, "-") === slug);
 
   return (
     <div>
       {/* Banner */}
-      <section className="bg-primary text-primary-foreground py-12 text-center">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="relative bg-primary text-primary-foreground py-12 text-center overflow-hidden">
+        {category?.image && (
+          <div className="absolute inset-0">
+            <img src={category.image} alt={categoryName} className="w-full h-full object-cover opacity-20" />
+          </div>
+        )}
+        <div className="relative max-w-7xl mx-auto px-4">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{categoryName || "Collection"}</h1>
           <div className="flex items-center justify-center gap-1 text-sm opacity-80">
             <Link to="/" className="hover:opacity-100">Home</Link>
@@ -44,13 +50,13 @@ const Collection = () => {
         <div className="mt-16">
           <h2 className="section-title mb-6">Other Collections</h2>
           <div className="flex flex-wrap gap-3">
-            {categories.filter((c) => c.toLowerCase().replace(/\s/g, "-") !== slug).map((cat) => (
+            {categoryObjects.filter((c) => c.slug !== slug).map((cat) => (
               <Link
-                key={cat}
-                to={`/collections/${cat.toLowerCase().replace(/\s/g, "-")}`}
+                key={cat.name}
+                to={`/collections/${cat.slug}`}
                 className="px-5 py-2 border border-border rounded-full text-sm font-medium text-foreground hover:border-primary hover:text-primary transition-colors"
               >
-                {cat}
+                {cat.name}
               </Link>
             ))}
           </div>
