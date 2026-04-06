@@ -7,7 +7,7 @@ import { useWishlist } from "@/contexts/WishlistContext";
 const ProductCard = ({ product }: { product: Product }) => {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-  const hasVariants = !!product.priceRange;
+  const hasVariants = !!(product.variants && product.variants.length > 0) || !!product.priceRange;
   const wishlisted = isInWishlist(product.id);
 
   const toggleWishlist = (e: React.MouseEvent) => {

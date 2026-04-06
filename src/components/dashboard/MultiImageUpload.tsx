@@ -20,15 +20,16 @@ const MultiImageUpload = ({ value = [], onChange, className, max = 8 }: MultiIma
   const handleFiles = useCallback((files: FileList) => {
     const remaining = max - value.length;
     const toProcess = Array.from(files).slice(0, remaining);
-    toProcess.forEach((file) => {
-      if (!file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          onChange([...value, e.target.result as string]);
-        }
-      };
-      reader.readAsDataURL(file);
+    const promises = toProcess
+      .filter((file) => file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024)
+      .map((file) => new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => e.target?.result ? resolve(e.target.result as string) : reject();
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      }));
+    Promise.all(promises).then((results) => {
+      if (results.length > 0) onChange([...value, ...results]);
     });
   }, [value, onChange, max]);
 
