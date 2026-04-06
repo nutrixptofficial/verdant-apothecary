@@ -165,7 +165,7 @@ const defaultProducts: AdminProduct[] = [
   },
   {
     id: "prod-9", name: "Ashwagandha | Asgand Nagori", price: 150, stock: 2, categoryId: "cat-1",
-    image: prodGinger, images: [prodGinger],
+    image: prodAshwagandha, images: [prodAshwagandha],
     status: "active", description: "Withania Somnifera root", createdAt: "2025-03-01", rating: 5, priceRange: "₨ 150–₨ 1,500",
     variants: [
       { id: "v9-1", label: "50g", price: 150, stock: 2 },
@@ -175,7 +175,7 @@ const defaultProducts: AdminProduct[] = [
   },
   {
     id: "prod-10", name: "Shikakai | Soap Pod | سکاکائی", price: 60, stock: 70, categoryId: "cat-1",
-    image: prodNeem, images: [prodNeem],
+    image: prodShikakai, images: [prodShikakai],
     status: "active", description: "Natural hair care herb", createdAt: "2025-03-05", rating: 4, priceRange: "₨ 60–₨ 650",
     variants: [
       { id: "v10-1", label: "100g", price: 60, stock: 70 },
@@ -185,7 +185,7 @@ const defaultProducts: AdminProduct[] = [
   },
   {
     id: "prod-11", name: "White Pepper Whole | Safeed Mirch", price: 320, stock: 30, categoryId: "cat-2",
-    image: prodBlackPepper, images: [prodBlackPepper],
+    image: prodWhitePepper, images: [prodWhitePepper],
     status: "active", description: "Premium whole white pepper", createdAt: "2025-03-08", rating: 4, priceRange: "₨ 320–₨ 620",
     variants: [
       { id: "v11-1", label: "50g", price: 320, stock: 30 },
@@ -194,7 +194,7 @@ const defaultProducts: AdminProduct[] = [
   },
   {
     id: "prod-12", name: "Zeera Sabat Safeed (White Cumin)", price: 150, stock: 50, categoryId: "cat-2",
-    image: prodCardamom, images: [prodCardamom],
+    image: prodCumin, images: [prodCumin],
     status: "active", description: "Whole white cumin seeds", createdAt: "2025-03-10", rating: 4, priceRange: "₨ 150–₨ 450",
     variants: [
       { id: "v12-1", label: "100g", price: 150, stock: 50 },
