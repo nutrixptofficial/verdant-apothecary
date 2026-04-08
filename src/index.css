@@ -118,6 +118,11 @@
     background-color: hsl(var(--footer-bg));
     color: hsl(var(--footer-foreground));
   }
+
+  .subscription-section {
+    background-color: hsl(var(--subscription-bg));
+    color: hsl(var(--subscription-foreground));
+  }
 }
 
 @layer utilities {
