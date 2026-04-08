@@ -88,7 +88,7 @@ const BlogPost = () => {
       {/* Content */}
       <article className="max-w-3xl mx-auto px-4 py-12">
         <div className="rounded-lg overflow-hidden mb-8">
-          <img src={catHerbs} alt={post.title} className="w-full h-64 md:h-80 object-cover" />
+          <img src={blogImages[post.slug] || blogBlackPepper} alt={post.title} className="w-full h-64 md:h-80 object-cover" />
         </div>
 
         <div className="flex items-center gap-6 text-sm text-muted-foreground mb-8">
