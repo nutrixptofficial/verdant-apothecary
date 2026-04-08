@@ -1,7 +1,15 @@
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Calendar, Eye, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import catHerbs from "@/assets/cat-herbs.webp";
+import blogBlackPepper from "@/assets/blog-black-pepper.webp";
+import blogGarlic from "@/assets/blog-garlic.webp";
+import blogSpicesGuide from "@/assets/blog-spices-guide.webp";
+
+const blogImages: Record<string, string> = {
+  "black-pepper-spice-beef-recipe": blogBlackPepper,
+  "garlicky-punch-and-finishes": blogGarlic,
+  "spices-subscription-guide": blogSpicesGuide,
+};
 
 const blogPostsData = [
   {
