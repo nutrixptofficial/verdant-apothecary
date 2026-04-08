@@ -253,6 +253,7 @@ const NewSpices = () => (
 /* ─── Blog Preview ─── */
 const blogPosts = [
   {
+    slug: "black-pepper-spice-beef-recipe",
     title: "Black Pepper Spice Beef Recipe",
     category: "GardenFrost Puree",
     date: "13 Feb",
@@ -260,6 +261,7 @@ const blogPosts = [
     views: 228,
   },
   {
+    slug: "garlicky-punch-and-finishes",
     title: "Garlicky Punch and Finishes",
     category: "Backpepper",
     date: "21 Feb",
@@ -267,6 +269,7 @@ const blogPosts = [
     views: 177,
   },
   {
+    slug: "spices-subscription-guide",
     title: "Spices Subscription Guide",
     category: "Backpepper",
     date: "17 Mar",
