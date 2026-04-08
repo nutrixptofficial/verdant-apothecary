@@ -328,16 +328,16 @@ const SubscriptionBanner = () => {
   };
 
   return (
-    <section className="subscription-section">
+    <section className="bg-[hsl(0,62%,22%)] text-white">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-12">
-        <h2 className="text-2xl font-semibold mb-4">Our Subscription</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-white">Our Subscription</h2>
         <form onSubmit={handleSubmit} className="flex gap-3 max-w-md">
           <Input
             type="email"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="bg-white/10 border-white/20 text-footer-foreground placeholder:text-white/50"
+            className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
           />
           <Button type="submit" className="shrink-0">
             Subscribe
