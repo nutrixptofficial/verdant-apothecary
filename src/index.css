@@ -36,8 +36,11 @@
 
     --radius: 0.5rem;
 
-    --footer-bg: 0 62% 22%;
+    --footer-bg: 0 0% 8%;
     --footer-foreground: 0 0% 90%;
+
+    --subscription-bg: 0 50% 25%;
+    --subscription-foreground: 0 0% 95%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -69,8 +72,11 @@
     --border: 0 0% 18%;
     --input: 0 0% 18%;
     --ring: 93 60% 42%;
-    --footer-bg: 0 62% 15%;
+    --footer-bg: 0 0% 5%;
     --footer-foreground: 0 0% 85%;
+
+    --subscription-bg: 0 50% 20%;
+    --subscription-foreground: 0 0% 90%;
   }
 }
 
