@@ -8,8 +8,16 @@ import ProductCard from "@/components/ProductCard";
 import { products, categoryObjects } from "@/data/products";
 
 import heroBg from "@/assets/hero-bg.jpg";
-import catHerbs from "@/assets/cat-herbs.webp";
 import catSpices from "@/assets/cat-spices.webp";
+import blogBlackPepper from "@/assets/blog-black-pepper.webp";
+import blogGarlic from "@/assets/blog-garlic.webp";
+import blogSpicesGuide from "@/assets/blog-spices-guide.webp";
+
+const blogImageMap: Record<string, string> = {
+  "black-pepper-spice-beef-recipe": blogBlackPepper,
+  "garlicky-punch-and-finishes": blogGarlic,
+  "spices-subscription-guide": blogSpicesGuide,
+};
 
 /* ─── Hero Slider ─── */
 const heroSlides = [
