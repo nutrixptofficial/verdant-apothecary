@@ -295,7 +295,7 @@ const BlogSection = () => (
       {blogPosts.map((post) => (
         <Link to={`/blog/${post.slug}`} key={post.title} className="group">
           <div className="h-48 rounded-lg overflow-hidden mb-4 bg-secondary relative">
-            <img src={catHerbs} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <img src={blogImageMap[post.slug] || blogBlackPepper} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             <span className="absolute bottom-3 left-3 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded uppercase">
               {post.category}
             </span>
