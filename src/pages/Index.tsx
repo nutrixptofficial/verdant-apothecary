@@ -168,7 +168,7 @@ const DealsCountdown = () => {
   }, []);
 
   return (
-    <section className="bg-foreground text-card py-12">
+    <section className="bg-[hsl(0,0%,20%)] text-primary-foreground py-12">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
         <div>
           <h2 className="text-2xl md:text-3xl font-semibold mb-2">Deals of the month</h2>
@@ -176,7 +176,7 @@ const DealsCountdown = () => {
             Yes! Send me exclusive offers, personalised, and unique gift ideas, tips for shopping.
           </p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-6">
           {[
             { val: time.days, label: "Days" },
             { val: time.hours, label: "Hours" },
@@ -189,7 +189,7 @@ const DealsCountdown = () => {
             </div>
           ))}
         </div>
-        <Button asChild variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-foreground text-sm">
+        <Button asChild className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90 text-sm font-medium px-6">
           <Link to="/products">View All Deals</Link>
         </Button>
       </div>
@@ -221,16 +221,16 @@ const BundleBanner = () => (
           Discover the ultimate bundle of spice sets. Whether you're looking for BBQ or baking spice gift set, vegetarian meals, or international flavors.
         </p>
         <ul className="space-y-2 text-sm text-foreground mb-6">
-          <li>3 spices, save ₨199</li>
-          <li>6 spices, save ₨299 (free shipping!)</li>
-          <li>9 spices, save ₨499 (free shipping!)</li>
+          <li>3 spices, save Rs199</li>
+          <li>6 spices, save Rs299 (free shipping!)</li>
+          <li>9 spices, save Rs499 (free shipping!)</li>
         </ul>
-        <Button asChild>
+        <Button asChild className="rounded-md">
           <Link to="/products">Build your own set</Link>
         </Button>
       </div>
-      <div className="w-full md:w-80 h-48 md:h-64 rounded-lg overflow-hidden">
-        <img src={catSpices} alt="Spice bundle" className="w-full h-full object-cover" loading="lazy" />
+      <div className="w-full md:w-80 h-48 md:h-64 flex items-center justify-center">
+        <img src={catSpices} alt="Spice bundle" className="max-w-full max-h-full object-contain" loading="lazy" />
       </div>
     </div>
   </section>
@@ -286,13 +286,11 @@ const BlogSection = () => (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {blogPosts.map((post) => (
         <Link to={`/blog/${post.slug}`} key={post.title} className="group">
-          <div className="h-48 rounded-lg overflow-hidden mb-4 bg-secondary">
+          <div className="h-48 rounded-lg overflow-hidden mb-4 bg-secondary relative">
             <img src={catHerbs} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            <div className="relative -mt-8 ml-3">
-              <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded uppercase">
-                {post.category}
-              </span>
-            </div>
+            <span className="absolute bottom-3 left-3 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded uppercase">
+              {post.category}
+            </span>
           </div>
           <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{post.title}</h3>
           <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{post.excerpt}</p>
