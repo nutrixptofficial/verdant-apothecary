@@ -1,7 +1,15 @@
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Calendar, Eye, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import catHerbs from "@/assets/cat-herbs.webp";
+import blogBlackPepper from "@/assets/blog-black-pepper.webp";
+import blogGarlic from "@/assets/blog-garlic.webp";
+import blogSpicesGuide from "@/assets/blog-spices-guide.webp";
+
+const blogImages: Record<string, string> = {
+  "black-pepper-spice-beef-recipe": blogBlackPepper,
+  "garlicky-punch-and-finishes": blogGarlic,
+  "spices-subscription-guide": blogSpicesGuide,
+};
 
 const blogPostsData = [
   {
@@ -80,7 +88,7 @@ const BlogPost = () => {
       {/* Content */}
       <article className="max-w-3xl mx-auto px-4 py-12">
         <div className="rounded-lg overflow-hidden mb-8">
-          <img src={catHerbs} alt={post.title} className="w-full h-64 md:h-80 object-cover" />
+          <img src={blogImages[post.slug] || blogBlackPepper} alt={post.title} className="w-full h-64 md:h-80 object-cover" />
         </div>
 
         <div className="flex items-center gap-6 text-sm text-muted-foreground mb-8">

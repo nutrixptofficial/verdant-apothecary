@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
 import { Calendar, Eye } from "lucide-react";
-import catHerbs from "@/assets/cat-herbs.webp";
+import blogBlackPepper from "@/assets/blog-black-pepper.webp";
+import blogGarlic from "@/assets/blog-garlic.webp";
+import blogSpicesGuide from "@/assets/blog-spices-guide.webp";
 import { blogPostsData } from "@/pages/BlogPost";
+
+const blogImages: Record<string, string> = {
+  "black-pepper-spice-beef-recipe": blogBlackPepper,
+  "garlicky-punch-and-finishes": blogGarlic,
+  "spices-subscription-guide": blogSpicesGuide,
+};
 
 const Blog = () => (
   <div>
@@ -17,7 +25,7 @@ const Blog = () => (
         {blogPostsData.map((post) => (
           <Link to={`/blog/${post.slug}`} key={post.slug} className="product-card group">
             <div className="h-48 overflow-hidden">
-              <img src={catHerbs} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img src={blogImages[post.slug] || blogBlackPepper} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             </div>
             <div className="p-5 space-y-3">
               <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded uppercase">

@@ -8,8 +8,16 @@ import ProductCard from "@/components/ProductCard";
 import { products, categoryObjects } from "@/data/products";
 
 import heroBg from "@/assets/hero-bg.jpg";
-import catHerbs from "@/assets/cat-herbs.webp";
 import catSpices from "@/assets/cat-spices.webp";
+import blogBlackPepper from "@/assets/blog-black-pepper.webp";
+import blogGarlic from "@/assets/blog-garlic.webp";
+import blogSpicesGuide from "@/assets/blog-spices-guide.webp";
+
+const blogImageMap: Record<string, string> = {
+  "black-pepper-spice-beef-recipe": blogBlackPepper,
+  "garlicky-punch-and-finishes": blogGarlic,
+  "spices-subscription-guide": blogSpicesGuide,
+};
 
 /* ─── Hero Slider ─── */
 const heroSlides = [
@@ -287,7 +295,7 @@ const BlogSection = () => (
       {blogPosts.map((post) => (
         <Link to={`/blog/${post.slug}`} key={post.title} className="group">
           <div className="h-48 rounded-lg overflow-hidden mb-4 bg-secondary relative">
-            <img src={catHerbs} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <img src={blogImageMap[post.slug] || blogBlackPepper} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             <span className="absolute bottom-3 left-3 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded uppercase">
               {post.category}
             </span>
