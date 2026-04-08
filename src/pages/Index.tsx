@@ -189,8 +189,8 @@ const DealsCountdown = () => {
             </div>
           ))}
         </div>
-        <Button variant="outline" className="border-card text-card hover:bg-card hover:text-foreground text-sm">
-          View All Deals
+        <Button asChild variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-foreground text-sm">
+          <Link to="/products">View All Deals</Link>
         </Button>
       </div>
     </section>
@@ -282,7 +282,7 @@ const BlogSection = () => (
     </h2>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {blogPosts.map((post) => (
-        <div key={post.title} className="group">
+        <Link to={`/blog/${post.slug}`} key={post.title} className="group">
           <div className="h-48 rounded-lg overflow-hidden mb-4 bg-secondary">
             <img src={catHerbs} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             <div className="relative -mt-8 ml-3">
@@ -297,7 +297,7 @@ const BlogSection = () => (
             <span>👁 {post.views}</span>
             <span>💬 0</span>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   </section>
