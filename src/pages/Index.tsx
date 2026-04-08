@@ -328,7 +328,7 @@ const SubscriptionBanner = () => {
   };
 
   return (
-    <section className="footer-section">
+    <section className="subscription-section">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-12">
         <h2 className="text-2xl font-semibold mb-4">Our Subscription</h2>
         <form onSubmit={handleSubmit} className="flex gap-3 max-w-md">
